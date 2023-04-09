@@ -1,0 +1,56 @@
+title: "VLSI Brasil"
+email: vlsibrasil@gmail.com
+timezone: UTC
+baseurl: "/vlsi-brasil"
+permalink: "/:title/"
+logo: 'assets/images/logo_website_small.png'
+favicon: 'assets/images/favicon.ico'
+author: Rafael
+paginate: 30
+disqus: 'demowebsite'
+locale: en_us
+lang: en_us
+feed_items: 10
+feed_update_period: daily
+feed_update_frequency: 1
+markdown: kramdown
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
+sass:
+  sass_dir: _sass
+  style: :compressed
+ganalytics: UA-113961478-1
+
+# Authors
+authors:
+  rafael:
+    name: Rafael Oliveira
+    display_name: Rafael Oliveira
+    avatar: 'assets/images/authors/rafael_1.jpg'
+    email: rafaelnevesmello@gmail.com
+    web: https://rafaelnmo.github.io/
+    twitter: https://twitter.com
+    description: "Projetista de Circuitos Digitais. Apaixonado por queimar circuitos e projetar ASICS."
+  john:
+    name: John
+    display_name: John Oliveira
+    avatar: 'assets/images/authors/rafael_2.jpg'
+    email: rafaelnevesmello@gmail.com
+    web: https://rafaelnmo.github.io/
+    twitter: https://twitter.com
+    description: "Verification Engineer. Apaixonado por plotar gráficos e verificar circuitos."
+
+# Social
+social:
+  instagram: https://www.instagram.com/bootstrapstarter/
+  facebook: https://www.facebook.com/bootstrapstartercom-346329609045284
+  twitter: https://twitter.com/bstartercom
+
+# Plugins
+plugins: 
+- jekyll-paginate
+- jekyll-sitemap
+- jekyll-feed
+- jekyll-seo-tag
+- jekyll-archives
