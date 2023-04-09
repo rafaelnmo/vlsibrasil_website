@@ -1,8 +1,8 @@
 title: "VLSI Brasil"
 email: vlsibrasil@gmail.com
 timezone: UTC
-baseurl: "/vlsi-brasil"
-url: "https://rafaelnmo.github.io"
+baseurl: ""
+url: "https://www.vlsibrasil.com.br"
 port: 4444
 permalink: "/:title/"
 logo: 'assets/images/logo_website_small.png'
