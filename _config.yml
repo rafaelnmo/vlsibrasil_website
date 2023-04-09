@@ -3,14 +3,15 @@ email: vlsibrasil@gmail.com
 timezone: UTC
 baseurl: "/vlsi-brasil"
 url: "https://rafaelnmo.github.io"
+port: 4444
 permalink: "/:title/"
 logo: 'assets/images/logo_website_small.png'
 favicon: 'assets/images/favicon.ico'
 author: Rafael
 paginate: 30
 disqus: 'demowebsite'
-locale: en_us
-lang: en_us
+locale: pt_br
+lang: pt_br
 feed_items: 10
 feed_update_period: daily
 feed_update_frequency: 1
@@ -44,9 +45,9 @@ authors:
 
 # Social
 social:
-  instagram: https://www.instagram.com/bootstrapstarter/
-  facebook: https://www.facebook.com/bootstrapstartercom-346329609045284
-  twitter: https://twitter.com/bstartercom
+  instagram: https://www.instagram.com/vlsibrasil
+  facebook: https://www.facebook.com/vlsibrasil
+  twitter: https://twitter.com/vlsibrasil
 
 # Plugins
 plugins: 
