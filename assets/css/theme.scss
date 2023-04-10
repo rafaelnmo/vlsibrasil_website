@@ -264,6 +264,8 @@ small, .small {
 }
 span.post-name,span.post-date,span.author-meta {
 	display:inline-block;
+    /*color: #333;        /*Adicionei para mudar a cor*/
+    color: #6c757d;     /* <----- Adicionei para mudar a cor*/
 }
 
 span.post-read-more a {
