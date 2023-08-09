@@ -9,8 +9,8 @@
     position: relative;
     width: 100%;
     min-height: 1px; // Prevent columns from collapsing when empty
-    padding-right: calc($gutter / 2);
-    padding-left: calc($gutter / 2);
+    padding-right: 15px;
+    padding-left: 15px;
   }
 
   @each $breakpoint in map-keys($breakpoints) {
