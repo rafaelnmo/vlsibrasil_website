@@ -5,3 +5,7 @@
 
 ![jekyll-affiliates-theme](https://bootstrapstarter.com/assets/img/themes/affiliates-jekyll.jpg)
 -->
+
+<!--
+How to execute: bundle exec jekyll serve
+ -->
