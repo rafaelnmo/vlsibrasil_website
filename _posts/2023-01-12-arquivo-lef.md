@@ -55,7 +55,7 @@ Um arquivo Tech LEF  contém todas as informações de tecnologia para um design
 Você pode especificar as declarações em qualquer ordem. No entanto, os dados devem ser definidos antes de serem usados. Por exemplo, a declaração UNITS deve ser definida antes de quaisquer declarações que usem valores dependentes dos valores de UNITS. Para o exemplo de Tech LEF abaixo temos:
 
 <div align="center">
-    <img src="../assets/images/000_post/code_1.png" alt="Exemplo de um arquivo Tech LEF.
+    <img src="../assets/images/000_post/code_1.png" style="max-width: 60%" alt="Exemplo de um arquivo Tech LEF.
 " height="320"/>
     <p>
         <em>Exemplo de um arquivo Tech LEF.</em>
@@ -63,7 +63,7 @@ Você pode especificar as declarações em qualquer ordem. No entanto, os dados 
 </div>
 
 <div align="center">
-    <img src="../assets/images/000_post/code_2.png" alt="Header de um arquivo Tech LEF.
+    <img src="../assets/images/000_post/code_2.png" style="max-width: 60%" alt="Header de um arquivo Tech LEF.
 " height="320"/>
     <p>
         <em>Cabeçalho de um arquivo Tech LEF.</em>
@@ -107,7 +107,7 @@ MANUFACTURINGGRID valor ;
 Define a grade de fabricação para o projeto. A grade de fabricação é usada para alinhamento das geometrias. Quando especificado, formas e células são posicionadas em locais que se ajustam à grade de fabricação.
 
 <div align="center">
-    <img src="../assets/images/000_post/code_3.png" alt="Definição de site em um arquivo Tech LEF.
+    <img src="../assets/images/000_post/code_3.png" style="max-width: 60%" alt="Definição de site em um arquivo Tech LEF.
 " height="320"/>
     <p>
         <em>Definição de site em um arquivo Tech LEF.</em>
@@ -134,7 +134,7 @@ Especifica as dimensões do site local na orientação normal (ou norte), em mic
 
 
 <div align="center">
-    <img src="../assets/images/000_post/code_4.png" alt="Definição de camada de metal no Tech LEF.
+    <img src="../assets/images/000_post/code_4.png" style="max-width: 60%" alt="Definição de camada de metal no Tech LEF.
 " height="320"/>
     <p>
         <em>Definição de camada de metal no Tech LEF.</em>
@@ -169,7 +169,7 @@ As regras de espaçamento se aplicam ao espaçamento entre pino e fio (pin-to-wi
 
 
 <div align="center">
-    <img src="../assets/images/000_post/metal_rules.png" alt="Exemplo das regras das camadas de metal presentes no Tech LEF." height="320"/>
+    <img src="../assets/images/000_post/metal_rules.png" style="max-width: 60%" alt="Exemplo das regras das camadas de metal presentes no Tech LEF." height="320"/>
     <p>
         <em>Exemplo das regras das camadas de metal no Tech LEF.</em>
     </p>
@@ -178,7 +178,7 @@ As regras de espaçamento se aplicam ao espaçamento entre pino e fio (pin-to-wi
 Para conectar entre diferentes camadas de metal, precisamos da camada de poliéster (poly) juntamente com as camadas de metal que iremos conectar. Esses são basicamente chamados de VIAs. As vias podem ter apenas uma conexão (single cut) ou vários pontos de conexão (multi cut) entre as diferentes camadas de metais. Os atributos de uma via no LEF são parecidos com as dos metais. 
 
 <div align="center">
-    <img src="../assets/images/000_post/code_5.png" alt="Exemplo das regras das vias no Tech LEF." height="320"/>
+    <img src="../assets/images/000_post/code_5.png" style="max-width: 60%" alt="Exemplo das regras das vias no Tech LEF." height="320"/>
     <p>
         <em>Exemplo das regras das vias no Tech LEF.</em>
     </p>
@@ -202,7 +202,7 @@ Um arquivo LEF de biblioteca de células (Macro LEF) contém as informações da
 [END LIBRARY]
 
 <div align="center">
-    <img src="../assets/images/000_post/macro_lef.png" alt="Exemplo de um arquivo Macro LEF." height="320"/>
+    <img src="../assets/images/000_post/macro_lef.png" style="max-width: 60%" alt="Exemplo de um arquivo Macro LEF." height="320"/>
     <p>
         <em>Exemplo de um arquivo Macro LEF.</em>
     </p>
@@ -215,7 +215,7 @@ As declarações no arquivo Macro LEF representam as geometrias que constituem o
 O arquivo Design LEF corresponde a uma representação abstrata do design já sintetizado fisicamente. Esse LEF é similar ao Macro LEF, porém aplicado a um bloco projetado. Nesse caso, o bloco inteiro é considerado uma macro.
 
 <div align="center">
-    <img src="../assets/images/000_post/code_6.png" alt="Exemplo de um arquivo Design LEF." height="320"/>
+    <img src="../assets/images/000_post/code_6.png" style="max-width: 60%" alt="Exemplo de um arquivo Design LEF." height="320"/>
     <p>
         <em>Exemplo de um arquivo Design LEF.</em>
     </p>
@@ -230,7 +230,7 @@ Define um conjunto de obstruções (também chamadas de bloqueios) na macro. Nor
 
 
 <div align="center">
-    <img src="../assets/images/000_post/abstract_design.png" alt="Exemplo da view abstrata de um design." height="320"/>
+    <img src="../assets/images/000_post/abstract_design.png" style="max-width: 60%" alt="Exemplo da view abstrata de um design." height="320"/>
     <p>
         <em>Exemplo da view abstrata de um design.</em>
     </p>
@@ -241,7 +241,7 @@ Define um conjunto de obstruções (também chamadas de bloqueios) na macro. Nor
 O arquivo no formato .lef é usado principalmente na etapa de posicionamento e roteamento (PnR) durante a síntese física (Physical Synthesis) no fluxo digital. Nessa fase, o layout abstrato do circuito é criado, incluindo o posicionamento dos componentes, roteamento das interconexões e definição das camadas de metal e vias. 
 
 <div align="center">
-    <img src="../assets/images/000_post/digital_flow_pnr.png" alt="Diagrama da etapa do fluxo digital que usa arquivos LEF." height="320"/>
+    <img src="../assets/images/000_post/digital_flow_pnr.png" style="max-width: 60%" alt="Diagrama da etapa do fluxo digital que usa arquivos LEF." height="320"/>
     <p>
         <em>Diagrama da etapa do fluxo digital que usa arquivos LEF.</em>
     </p>
@@ -251,6 +251,6 @@ O arquivo .lef contém informações essenciais sobre as dimensões e caracterí
 
 #### Referencias
 
-https://www.ispd.cc/contests/18/lefdefref.pdf. Acessado em 24-Jul-2023
+<a href="https://www.ispd.cc/contests/18/lefdefref.pdf" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover !important">https://www.ispd.cc/contests/18/lefdefref.pdf</a>. Acessado em 24-Jul-2023
 
-http://coriolis.lip6.fr/doc/lefdef/lefdefref/LEFSyntax.html. Acessado em 24-Jul-2023
+<a href="http://coriolis.lip6.fr/doc/lefdef/lefdefref/LEFSyntax.html." class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover !important">http://coriolis.lip6.fr/doc/lefdef/lefdefref/LEFSyntax.html.</a>. Acessado em 24-Jul-2023
