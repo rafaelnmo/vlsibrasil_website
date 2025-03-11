@@ -74,6 +74,19 @@ Especifica o caractere usado para expressar hierarquia quando os nomes no LEF s�
 Se o caractere de divisão aparecer em um nome de algum elemento do LEF como se fosse um caractere normal, você deve usar uma barra invertida (\) antes do caractere para evitar que o leitor LEF interprete o caractere como um delimitador de hierarquia.
 Se você não especificar a declaração DIVIDERCHAR no seu arquivo LEF, o valor padrão é "/".
 
+```text
+UNITS  
+    [TIME NANOSECONDS fatorDeConversao ;]  
+    [CAPACITANCE PICOFARADS fatorDeConversao ;]  
+    [RESISTANCE OHMS fatorDeConversao ;]  
+    [POWER MILLIWATTS fatorDeConversao ;]  
+    [CURRENT MILLIAMPS fatorDeConversao ;]  
+    [VOLTAGE VOLTS fatorDeConversao ;]  
+    [DATABASE MICRONS fatorDeConversaoLEF ;]  
+    [FREQUENCY MEGAHERTZ fatorDeConversao ;]  
+END UNITS
+```
+
 **UNITS  
 &nbsp;&nbsp;&nbsp;&nbsp;[TIME NANOSECONDS fatorDeConversao ;]  
 &nbsp;&nbsp;&nbsp;&nbsp;[CAPACITANCE PICOFARADS fatorDeConversao ;]  
