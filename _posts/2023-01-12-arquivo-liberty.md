@@ -14,6 +14,8 @@ image: assets/images/001_post/cover/001_blog.png
 O arquivo Liberty Timing (Lib) contém informações detalhadas sobre a temporização e o consumo de energia das células lógicas (std cells) de uma biblioteca de células para um determinado nó tecnológico. Essencialmente, o Liberty é um modelo de temporização que inclui dados como o atraso das células, o tempo de transição, os tempos de setup e hold, _leakage power_, entre outros.
 Esse arquivo, geralmente com a extensão .lib, é um padrão desenvolvido pela Synopsys e distribuído como código aberto. Ele é amplamente utilizado no projetos de circuitos por descrever características das células, que são fundamentais para a análise de timing em várias etapas do fluxo de projetos.
 
+## SMAL UPDATE TO TEST IT
+
 ## Contexto no VLSI
 
 No fluxo de design de circuitos integrados, especialmente durante a síntese lógica e a análise de timing (STA), é fundamental ter informações precisas sobre os atrasos e consumo das células,como portas lógicas e flip-flops, que compõem o circuito para haver uma estimativa dos custos temporarais de cada operação executada. O arquivo liberty fornece essas informações que foram obtidas em simulações realizadas pela foundry que disponibilizou a biblioteca, durante a caracterização elétrica das std cells.
