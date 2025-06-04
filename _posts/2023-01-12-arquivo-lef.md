@@ -2,7 +2,7 @@
 title:  Arquivo Library Exchange Format (LEF)
 description: 
 author: rafael
-date: 2023-01-12 11:33:00 +0800
+date: 2023-12-01 11:33:00 +0800
 categories: [ Arquivos, LEF ]
 tags: [Backend]
 pin: true
