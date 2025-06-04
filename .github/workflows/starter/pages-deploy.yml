@@ -2,7 +2,8 @@ name: "Build and Deploy"
 on:
   push:
     branches:
-      - new_template
+      - main
+      # - new_template
     paths-ignore:
       - .gitignore
       - README.md
