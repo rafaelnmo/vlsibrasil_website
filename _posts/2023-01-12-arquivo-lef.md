@@ -22,7 +22,7 @@ O formato de arquivo Library Exchange Format (LEF) é uma representação abstra
 
 Um arquivo Tech LEF  contém todas as informações de tecnologia para um design, como regras de posicionamento e roteamento, e informações de processo para as camadas. O arquivo pode incluir as seguintes declarações:
 
-<pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+```plaintext
 [VERSION definição]  
 [BUSBITCHARS definição]  
 [DIVIDERCHAR definição]  
@@ -43,7 +43,7 @@ Um arquivo Tech LEF  contém todas as informações de tecnologia para um design
 [SITE definição]  
 [BEGINEXT definição]  
 [END LIBRARY]  
-</pre>
+```
 
 Você pode especificar as declarações em qualquer ordem. No entanto, os dados devem ser definidos antes de serem usados. Por exemplo, a declaração UNITS deve ser definida antes de quaisquer declarações que usem valores dependentes dos valores de UNITS. Para o exemplo de Tech LEF abaixo temos:
 
@@ -74,7 +74,7 @@ Se o caractere de divisão aparecer em um nome de algum elemento do LEF como se 
 Se você não especificar a declaração DIVIDERCHAR no seu arquivo LEF, o valor padrão é "/".
 
 
-<pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+```plaintext
 UNITS  
     [TIME NANOSECONDS fatorDeConversao ;]  
     [CAPACITANCE PICOFARADS fatorDeConversao ;]  
@@ -85,8 +85,7 @@ UNITS
     [DATABASE MICRONS fatorDeConversaoLEF ;]  
     [FREQUENCY MEGAHERTZ fatorDeConversao ;]  
 END UNITS
-</pre>
-
+```
 
 
 O campo UNITS define as unidades de medida no LEF. Os valores indicam como interpretar os números encontrados ao longo do arquivo.
@@ -98,15 +97,14 @@ Define a grade de fabricação para o projeto. A grade de fabricação é usada 
 ![Desktop View](/assets/images/000_post/code_3.png){: width="972" height="589" .responsive-img}
 _Definição de site em um arquivo Tech LEF_
 
-<pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+```plaintext
 SITE nomeDoSite  
     CLASSE {PAD | CORE} ;  
     [SYMMETRY {X | Y | R90} ... ;]  
     [ROWPATTERN {nomeDoSiteAnterior orientaçãoDoSite} ... ;]  
     SIZE largura BY altura ;  
 FIM nomeDoSite  
-</pre>
-
+```
 O campo SITE fornece a grade mínima de posicionamento para um conjunto de stdcells, como I/O, core, block, analógico, digital, short, tall, e assim por diante. Todas as std cell precisam ter largura e altura múltiplas do tamanho do site.
 
 **SYMMETRY {X | Y | R90}:**
@@ -124,13 +122,13 @@ _Definição de camada de metal no Tech LEF_
 Os campos LAYER definem as camadas de roteamento presentes na tecnologia e que podem ser usadas no bloco a ser projetado. Cada camada é definida atribuindo-lhe um nome e regras de design. É necessário definir as camadas de roteamento separadamente, com suas próprias declarações de atributos. Você deve definir as camadas em ordem de processo de baixo para cima. Por exemplo:
 
 
-<pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+```plaintext
     poly    masterslice  
     cut01   cut  
     met1    routing  
     cut12   cut  
     met2    routing  
-</pre>
+```
 
 
 **LAYER nomeDaCamada:**
@@ -167,7 +165,7 @@ Por padrão todo arquivo LEF deve terminar com a declaração de END LIBRARY.
 
 Um arquivo LEF de biblioteca de células (std cell LEF) contém as informações das células lógicas que para um dado Process Design Kit (PDK). Um arquivo LEF de std cells pode incluir as seguintes declarações:
 
-<pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+```plaintext
 [VERSION definição]  
 [BUSBITCHARS definição]  
 [DIVIDERCHAR definição]  
@@ -178,7 +176,7 @@ Um arquivo LEF de biblioteca de células (std cell LEF) contém as informações
 [OBS definição]  
 [BEGINEXT definição]  
 [END LIBRARY] 
-</pre>
+```
 
 
 ![Desktop View](/assets/images/000_post/macro_lef.png){: width="972" height="589" .responsive-img}
@@ -195,12 +193,13 @@ O arquivo Design LEF corresponde a uma representação abstrata do design já si
 ![Desktop View](/assets/images/000_post/code_6.png){: width="972" height="589" .responsive-img}
 _Exemplo de um arquivo Design LEF_
 
-<pre style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+```plaintext
 OBS  
     LAYER layerName  
     RECT xy xy ;  
 END  
-</pre>
+```
+
 O campo _OBS_ define um conjunto de obstruções (também chamadas de bloqueios) na macro. Normalmente, obstruções impedem o roteamento, exceto quando um pino se sobrepõe a uma obstrução (a geometria da porta sobrepõe a obstrução). Por exemplo, é possível definir um retângulo grande como obstrução de met1 e ter uma porta met1 no meio da obstrução. A porta ainda pode ser acessada por uma via, se a via estiver completamente dentro da porta.
 
 
@@ -217,6 +216,11 @@ O arquivo no formato .lef é usado principalmente na etapa de posicionamento e r
 _Diagrama da etapa do fluxo digital que usa arquivos LEF_
 
 O arquivo .lef contém informações essenciais sobre as dimensões e características físicas dos componentes, bem como alguns detalhes sobre as camadas de metal, vias, regras de espaçamento, largura das trilhas e outras informações relevantes para a implementação física do circuito. Portanto, o arquivo .lef é usado para orientar a ferramenta de projeto físico na geração do layout final do circuito.
+
+## Video
+
+<!-- {% include embed/youtube.html id='Balreaj8Yqs' %} -->
+<!-- {% include embed/youtube.html id='vVqPg8CddUQ?si=kLILzqGGv5iKSLai' %} -->
 
 #### Referencias
 
