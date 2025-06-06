@@ -14,9 +14,49 @@ image: assets/images/001_post/cover/001_blog.png
 O arquivo Liberty Timing (Lib) contém informações detalhadas sobre a temporização e o consumo de energia das células lógicas (std cells) de uma biblioteca de células para um determinado nó tecnológico. Essencialmente, o Liberty é um modelo de temporização que inclui dados como o atraso das células, o tempo de transição, os tempos de setup e hold, _leakage power_, entre outros.
 Esse arquivo, geralmente com a extensão .lib, é um padrão desenvolvido pela Synopsys e distribuído como código aberto. Ele é amplamente utilizado no projetos de circuitos por descrever características das células, que são fundamentais para a análise de timing em várias etapas do fluxo de projetos.
 
+## Tipos de arquivos Liberty 
+
+Os parâmetros de temporização e consumo de potência de uma célula lógica são obtidos por meio de simulações elétricas realizadas em diferentes condições de operação — como variações de processo, temperatura e tensão. Os resultados dessas simulações são organizados e armazenados nos chamados arquivos Liberty (.lib), que são utilizados por ferramentas de EDA para análise de temporização (STA) e consumo. Existem três modelos principais utilizados para caracterizar células e gerar esses arquivos .lib:
+
+- _**NLDM (Non-Linear Delay Model)**_
+- _**CCS (Composite Current Source)**_
+- _**ECSM (Effective Current Source Model)**_
+
+### NLDM (Non-Linear Delay Model)
+
+É o modelo mais tradicional e amplamente utilizado. Nele, a célula é modelada com base em tabelas que relacionam o atraso de propagação e a transição de saída com dois parâmetros principais:
+- _**Transição na entrada (input net transition)**_
+- _**Capacitância de carga na saída (Cload)**_
+
+As simulações são feitas com fontes de tensão e os resultados são armazenados em tabelas 2D no arquivo .lib. O modelo NLDM é mais simples e leve, o que garante execução rápida das ferramentas de STA e arquivos menores. No entanto, ele apresenta limitações de precisão, especialmente em designs de alta performance, onde efeitos secundários têm maior impacto.
+
+### CCS (Composite Current Source)
+É um modelo mais avançado, desenvolvido pela Synopsys, no qual a célula é caracterizada usando uma fonte de corrente para modelar com maior fidelidade o comportamento elétrico, incluindo efeitos como queda de tensão (IR drop), acoplamento e variações de forma de onda.
+O arquivo gerado, chamado CCS Lib, oferece maior precisão na análise de temporização e integridade de sinal, sendo ideal para tecnologias mais avançadas (por exemplo, abaixo de 28 nm). Por outro lado, o CCS requer mais parâmetros de entrada, tem maior tempo de simulação e gera arquivos .lib maiores.
+
+### ECSM (Effective Current Source Model)
+O ECSM é uma alternativa ao CCS, também baseado em uma fonte de corrente, mas com um modelo mais compacto e eficiente. Ele tenta equilibrar precisão e desempenho, oferecendo resultados comparáveis ao CCS, mas com menor complexidade computacional e arquivos menores.
+O ECSM é amplamente adotado por ferramentas da Cadence e se destaca pela boa precisão na modelagem da forma de onda de saída e transições internas, sem penalizar tanto a performance da análise.
+Cada modelo tem seus prós e contras, e a escolha entre NLDM, CCS e ECSM depende dos requisitos de precisão, tempo de execução e tecnologia do processo utilizados no projeto. A Figura 1 mostra uma comparação do tamanho de um arquivo CCS e um NLDM.
+
+![Desktop View](/assets/images/001_post/lib_size.png){: width="972" height="589" .responsive-img-post-11}
+_Figura 1. Tamanho arquivos Liberty CSS e NLDM_
+
 ## Contexto no VLSI
 
-No fluxo de design de circuitos integrados, especialmente durante a síntese lógica e a análise de timing (STA), é fundamental ter informações precisas sobre os atrasos e consumo das células,como portas lógicas e flip-flops, que compõem o circuito para haver uma estimativa dos custos temporarais de cada operação executada. O arquivo liberty fornece essas informações que foram obtidas em simulações realizadas pela foundry que disponibilizou a biblioteca, durante a caracterização elétrica das std cells.
+No fluxo de design de circuitos integrados, especialmente durante as etapas de síntese lógica e análise estática de temporização (STA), é essencial contar com informações precisas sobre os atrasos de propagação e o consumo das células (como portas lógicas e flip-flops) que compõem o circuito. Realizar simulações SPICE para todo o circuito seria extremamente complexo e demorado. Por isso, utiliza-se modelos de temporização simplificados, conhecidos como timing models, para estimar o atraso de forma mais eficiente.
+
+Para cada cell arc — ou seja, para cada combinação de entrada e caminho específico entre uma entrada e uma saída de uma célula lógica, como mostrado na Figura 2 — deseja-se determinar dois parâmetros principais: o atraso de propagação (_propagation delay_, tpd) e a transição de saída (_output transition time_, trise/tfall). O _propagation delay_ representa o tempo que leva para uma mudança na entrada refletir na saída. Já a _output transition time_ indica quanto tempo a saída leva para estabilizar após essa mudança.
+
+![Desktop View](/assets/images/001_post/cell_arc.png){: width="200" height="589" .responsive-img-post-11}
+_Figura 2: Exemplos de diferentes cell arcs para uma standard cell_
+
+Os modelos NLDM (Non-Linear Delay Models) são amplamente utilizados para essa finalidade. Eles consideram dois fatores principais como entrada: a transição de entrada (_input net transition_, trise/tfall) e a capacitância de carga na saída (_output load capacitance_, cload). Com base nesses dois parâmetros — que são tabulados no arquivo .lib — as ferramentas de EDA utilizadas para STA conseguem calcular tanto o atraso de propagação quanto a transição de saída, conforme ilustrado na figura abaixo.
+
+![Desktop View](/assets/images/001_post/timing_calculation.png){: width="500" height="589" .responsive-img-post-11}
+_Figura 3: Parâmetros utilizados e calculados usando NLDM_
+
+Esses dados presentes no arquivo Liberty são fornecidos pela _foundry_, que os obtém por meio de simulações detalhadas durante o processo de caracterização elétrica das células padrão (_standard cells_). É importante destacar que cada arquivo _Liberty_ é gerado considerando diferentes condições de operação — como variações de processo, temperatura e tensão (chamadas de corners). Assim, os valores de atraso de propagação e transição de saída dependerão diretamente do corner utilizado durante a análise de temporização.
 
 O liberty é construído por declarações (_statements_) que podem conter várias linhas. Todas as informações do liberty são descritas usando três tipos de declarações: 
 - **Declarações de grupo (_Group Statements_)** 
@@ -25,7 +65,7 @@ O liberty é construído por declarações (_statements_) que podem conter vári
 
 
 ![Desktop View](/assets/images/001_post/lib_sintax.png){: width="972" height="589" .responsive-img-post-11}
-_Declarações básicas do arquivo Liberty_
+_Figura 4: Declarações básicas do arquivo Liberty_
 
 ## Grupo (_Group Statements_)
 Um grupo é uma coleção de declarações que pode descrever uma biblioteca, uma célula, um pino, um arco de temporização, e assim por diante. Chaves ({}), são usadas em pares, delimitando o conteúdo do grupo. Além disso um grupo pode conter vários atributos e ainda outros grupos como seus elementos.
@@ -57,21 +97,6 @@ _**&nbsp;&nbsp;&nbsp;&nbsp;define (attribute_name, group_name, attribute_type) ;
 Arquivos liberty grandes podem comprometer a capacidade do disco e os recursos de memória. Para reduzir o tamanho do arquivo Lib e melhorar o gerenciamento de arquivos, a sintaxe permite que você combine vários arquivos-fonte.  As referências são feitas no arquivo-fonte que contém a descrição do grupo da library. Durante a compilação da biblioteca, as informações referenciadas são recuperadas, incluídas no ponto de referência, e então a compilação continua. A sintaxe da declaração de include é: 
 
 _**&nbsp;&nbsp;&nbsp;&nbsp;include_file (file_nameid) ;**_  
-
-## Tipos de arquivos Liberty 
-
-Os parâmetros de temporização e potência de uma célula são obtidos simulando a célula em uma variedade de condições de operação, e os dados são representados nos arquivos Lib. Existem duas técnicas principais para caracterizar uma célula e gerar o Lib:
-
-- _**CCS (Composite Current Source)**_
-- _**NLDM (Non-Linear Delay Model)**_
-
-Na técnica CCS, uma fonte de corrente é usada, enquanto na técnica NLDM, uma fonte de tensão é utilizada para modelar e derivar os parâmetros do arquivo Lib. Com base na técnica CCS e NLDM utilizada para caracterizar a célula, chamamos o arquivo Lib correspondente de arquivo CCS Lib e arquivo NLDM Lib.
-
-Como a técnica CCS possui mais parâmetros de controle em comparação com a técnica NLDM, o arquivo CCS Lib é mais preciso. Por outro lado, o arquivo NLDM Lib tem um tempo de execução menor, o que significa uma execução mais rápida em comparação com o CCS Lib, além de um tamanho de arquivo menor do que o CCS Lib.
-
-
-![Desktop View](/assets/images/001_post/lib_size.png){: width="972" height="589" .responsive-img-post-11}
-_Tamanho arquivos Liberty CSS e NLDM_
 
 ## Principais campos do Liberty 
 
@@ -197,8 +222,7 @@ Múltiplos arcos de temporização podem ocorrer de várias maneiras. A lista a 
 - Entre os múltiplos bits identificados de um barramento e os múltiplos pinos de um barramento relacionado (com uma largura designada).
 - Entre o pino interno e todos os bits do grupo de barramento de ponto final.  
 
-a
-
+```plaintext
     cell (cell_name) {
         ...
         pin (A) {
@@ -222,10 +246,33 @@ a
             }/* fim timing */
         }/* fim C */
     }/* fim cell */
+```
+
+Agora que já exploramos os principais elementos que compõem a estrutura de um arquivo Liberty, podemos representar sua organização de forma mais clara por meio de uma hierarquia, como mostrado na Figura 3. Essa representação visual ajuda a entender como as informações estão estruturadas dentro do arquivo .lib, facilitando a leitura e a navegação pelos diferentes blocos de dados, como células, pinos, arcos de temporização e parâmetros tecnológicos.
 
 
-![Desktop View](/assets/images/001_post/lib_sintax.png){: width="972" height="589" .responsive-img-post-11}
-_Declarações básicas do arquivo Liberty_
+![Desktop View](/assets/images/001_post/hierarchy.png){: width="972" height="589" .responsive-img-post-11}
+_Figura 5: Representação hierárquica do arquivo Liberty_
+
+### Exemplo de cálculo de atraso usando Non-Linear Delay Model (NLDM)
+
+Vamos supor que queremos calcular o atraso de propagação (tpd) de uma porta inversora (sg13g2_inv_1) em uma biblioteca caracterizada usando NLDM mostrada na Figura 5. Para isso, precisamos de dois parâmetros de entrada:
+- Transição da entrada (input net transition): 0.174 ns
+- Capacitância de carga na saída (Cload): 0.039 pF
+
+Esses dois valores serão usados como índices para acessar uma tabela de atraso (delay table) no arquivo .lib. As tabelas geralmente são 2D, com uma dimensão para a transição de entrada e outra para a carga de saída.
+
+
+![Desktop View](/assets/images/001_post/nldm_example.png){: width="972" height="589" .responsive-img-post-11}
+_Figura 5: Exemplo cálculo de atraso usando NLDM_
+
+Localizamos os índices na tabela:
+- Input net transition = 0.174 ns → linha intermediária.
+- Cload = 0.039 fF → coluna do meio.
+
+O valor correspondente na tabela é **0.0156287 ns**, portando atraso de propagação (tpd) da porta para essa condição é 0.0156287 ns.
+
+Quando os valores de entrada, como o input net transition e Cload, não correspondem exatamente aos pontos definidos nas tabelas do arquivo .lib, as ferramentas de EDA utilizam técnicas de interpolação. Esse processo permite estimar com certa precisão os valores intermediários de propagation delay com base nos dados tabelados mais próximos.
 
 
 ## Design Liberty 
