@@ -267,21 +267,6 @@ Esses dois valores serão usados como índices para acessar uma tabela de atraso
 _Figura 5: Exemplo cálculo de atraso usando NLDM_
 
 
-![Desktop View](/assets/images/001_post/nldm_example_2.png){: width="972" height="589" .responsive-img-post-11}
-_Figura 5: Exemplo cálculo de atraso usando NLDM_
-
-
-![Desktop View](/assets/images/001_post/nldm_example_3.png){: width="972" height="589" .responsive-img-post-11}
-_Figura 5: Exemplo cálculo de atraso usando NLDM_
-
-
-![Desktop View](/assets/images/001_post/nldm_example_4.png){: width="972" height="589" .responsive-img-post-11}
-_Figura 5: Exemplo cálculo de atraso usando NLDM_
-
-
-![Desktop View](/assets/images/001_post/nldm_example_5.png){: width="972" height="589" .responsive-img-post-11}
-_Figura 5: Exemplo cálculo de atraso usando NLDM_
-
 Localizamos os índices na tabela:
 - Input net transition = 0.174 ns → linha intermediária.
 - Cload = 0.039 fF → coluna do meio.
