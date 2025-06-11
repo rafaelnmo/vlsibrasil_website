@@ -27,3 +27,22 @@
   margin: 1rem auto;
   border-radius: 6px;
 }
+
+.responsive-img-post-12 {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+
+.image-wrapper-custom {
+  width: 100%; 
+  background-color: #2B3E50;
+  display: flex;
+  justify-content: center;
+  padding: 0; // spacing above/below the image
+  border-radius: 6px;
+}
+
