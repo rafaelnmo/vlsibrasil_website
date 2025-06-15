@@ -10,23 +10,14 @@
 
 /* append your custom style below */
 
-.responsive-img {
-  width: 100%;
-  height: auto;
-  max-width: 500px;
-  display: block;
-  margin: 1rem auto;
-  border-radius: 6px;
-}
-
-.responsive-img-post-11 {
-  width: 100%;
-  height: auto;
-  max-width: 800px;
-  display: block;
-  margin: 1rem auto;
-  border-radius: 6px;
-}
+// .responsive-img {
+//   width: 100%;
+//   height: auto;
+//   max-width: 500px;
+//   display: block;
+//   margin: 1rem auto;
+//   border-radius: 6px;
+// }
 
 .responsive-img-post-12 {
   width: 100%;
@@ -37,12 +28,37 @@
   border-radius: 6px;
 }
 
-.image-wrapper-custom {
-  width: 100%; 
-  background-color: #2B3E50;
-  display: flex;
-  justify-content: center;
-  padding: 0; // spacing above/below the image
+// Shared image styling
+.responsive-img {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  display: block;
+  margin: 0 auto;
   border-radius: 6px;
 }
 
+// Wrapper with background
+.image-wrapper-colored {
+  width: 100%;
+  background-color: #2b3e50;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+// Wrapper without background
+.image-wrapper-clear {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+figcaption {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #666;
+  margin-top: 0.5rem;
+}

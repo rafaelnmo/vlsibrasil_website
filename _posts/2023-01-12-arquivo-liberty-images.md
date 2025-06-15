@@ -37,28 +37,43 @@ O arquivo gerado, chamado CCS Lib, oferece maior precisão na análise de tempor
 ### ECSM (Effective Current Source Model)
 O ECSM é uma alternativa ao CCS, também baseado em uma fonte de corrente, mas com um modelo mais compacto e eficiente. Ele tenta equilibrar precisão e desempenho, oferecendo resultados comparáveis ao CCS, mas com menor complexidade computacional e arquivos menores.
 O ECSM é amplamente adotado por ferramentas da Cadence e se destaca pela boa precisão na modelagem da forma de onda de saída e transições internas, sem penalizar tanto a performance da análise.
-Cada modelo tem seus prós e contras, e a escolha entre NLDM, CCS e ECSM depende dos requisitos de precisão, tempo de execução e tecnologia do processo utilizados no projeto. A Figura 1 mostra uma comparação do tamanho de um arquivo CCS e um NLDM.
+Cada modelo tem seus prós e contras, e a escolha entre NLDM, CCS e ECSM depende dos requisitos de precisão, tempo de execução e tecnologia do processo utilizados no projeto. A [Figura 1](#fig-libsize) mostra uma comparação do tamanho de um arquivo CCS e um NLDM.
 
-![Desktop View](/assets/images/001_post/lib_size.png){: width="972" height="589" .responsive-img-post-11}
-_Figura 1. Tamanho arquivos Liberty CSS e NLDM_
+
+<figure id="fig-libsize">
+  <div  class="image-wrapper-clear">
+    <img src="/assets/images/001_post/lib_size.png" class="responsive-img" alt="Comparação do tamanho de arquivos Liberty CCS e NLDM">
+  </div>
+  <figcaption>Figura 1: Comparação do tamanho de arquivos <em>Liberty</em> CCS e NLDM.</figcaption>
+</figure>
+
 
 ## Contexto no VLSI
 
-No fluxo de design de circuitos integrados, especialmente durante as etapas de síntese lógica e análise estática de temporização (STA), é essencial contar com informações precisas sobre os atrasos de propagação e o consumo das células (como portas lógicas e flip-flops) que compõem o circuito. Realizar simulações SPICE para todo o circuito seria extremamente complexo e demorado. Por isso, utiliza-se modelos de temporização simplificados, conhecidos como timing models, para estimar o atraso de forma mais eficiente.
+No processo de design de circuitos integrados, especialmente nas etapas de síntese lógica e análise estática de temporização (STA), é fundamental dispor de informações precisas sobre os atrasos e consumo das células que compõem o circuito, como portas lógicas e flip-flops. Fazer simulações SPICE para o circuito completo seria muito complexo e demorado. Por isso, utiliza-se modelos simplificados de temporização, chamados timing models, que permitem estimar atrasos de forma eficiente.
 
-Para cada cell arc — ou seja, para cada combinação de entrada e caminho específico entre uma entrada e uma saída de uma célula lógica, como mostrado na Figura 2 — deseja-se determinar dois parâmetros principais: o atraso de propagação (_propagation delay_, tpd) e a transição de saída (_output transition time_, trise/tfall). O _propagation delay_ representa o tempo que leva para uma mudança na entrada refletir na saída. Já a _output transition time_ indica quanto tempo a saída leva para estabilizar após essa mudança.
+Para cada _cell arc_, isto é, cada caminho específico entre uma entrada e uma saída de uma célula lógica, conforme ilustrado na [Figura 2](#fig-cellarc) , são determinados dois parâmetros principais: o atraso de propagação (_propagation delay_, tpd) e a transição de saída (_output transition time_, trise/tfall). O _propagation delay_ representa o tempo que leva para uma mudança na entrada refletir na saída. Já a _output transition time_ indica quanto tempo a saída leva para estabilizar após essa mudança.
 
-![Desktop View](/assets/images/001_post/cell_arc.png){: width="200" height="589" .responsive-img-post-11}
-_Figura 2: Exemplos de diferentes cell arcs para uma standard cell_
+<figure id="fig-cellarc">
+  <div class="image-wrapper-clear" >
+    <img src="/assets/images/001_post/cell_arc.png" class="responsive-img"  alt="Exemplos de diferentes cell arcs para uma standard cell">
+  </div>
+  <figcaption>Figura 2: Exemplos de diferentes <em>cell arcs</em> para uma standard cell.</figcaption>
+</figure>
 
-Os modelos NLDM (Non-Linear Delay Models) são amplamente utilizados para essa finalidade. Eles consideram dois fatores principais como entrada: a transição de entrada (_input net transition_, trise/tfall) e a capacitância de carga na saída (_output load capacitance_, cload). Com base nesses dois parâmetros — que são tabulados no arquivo .lib — as ferramentas de EDA utilizadas para STA conseguem calcular tanto o atraso de propagação quanto a transição de saída, conforme ilustrado na figura abaixo.
+Os modelos NLDM (_Non-Linear Delay Models_) são amplamente utilizados para essa finalidade. Eles consideram dois fatores principais como entrada: a transição de entrada (_input net transition_, trise/tfall) e a capacitância de carga na saída (_output load capacitance_, cload). Com base nesses dois parâmetros, que são tabulados no arquivo .lib, as ferramentas de EDA utilizadas para STA conseguem calcular tanto o atraso de propagação quanto a transição de saída, conforme ilustrado na [Figura 3](#fig-timingcalc) abaixo.
 
-![Desktop View](/assets/images/001_post/timing_calculation.png){: width="500" height="589" .responsive-img-post-11}
-_Figura 3: Parâmetros utilizados e calculados usando NLDM_
+<figure id="fig-timingcalc">
+  <div class="image-wrapper-clear">
+    <img src="/assets/images/001_post/timing_calculation.png" class="responsive-img" alt="Parâmetros utilizados e calculados usando NLDM">
+  </div>
+  <figcaption>Figura 3: Parâmetros utilizados e calculados usando <em>NLDM</em>.</figcaption>
+</figure>
+
 
 Esses dados presentes no arquivo Liberty são fornecidos pela _foundry_, que os obtém por meio de simulações detalhadas durante o processo de caracterização elétrica das células padrão (_standard cells_). É importante destacar que cada arquivo _Liberty_ é gerado considerando diferentes condições de operação — como variações de processo, temperatura e tensão (chamadas de corners). Assim, os valores de atraso de propagação e transição de saída dependerão diretamente do corner utilizado durante a análise de temporização.
 
-O liberty é construído por declarações (_statements_) que podem conter várias linhas. Todas as informações do liberty são descritas usando três tipos de declarações: 
+O Liberty é construído por declarações (_statements_) que podem conter várias linhas. Todas as informações do liberty são descritas usando três tipos de declarações: 
 - **Declarações de grupo (_Group Statements_)** 
 - **Declarações de atributo (_Attribute Statements_)** 
 - **Declarações define (_Define Statements_)** 
@@ -101,41 +116,97 @@ _**&nbsp;&nbsp;&nbsp;&nbsp;include_file (file_nameid) ;**_
 ## Principais campos do Liberty 
 
 ### Grupo _library_ 
-O grupo _library_ abrange toda a descrição da biblioteca de células contida em um arquivo Liberty. Todos os atributos e grupos são definidos dentro de uma _library_, além disso os atributos gerais que se aplicam a todas as células são estabelecidos nesse nível. Cada arquivo .lib deve conter apenas um grupo do tipo _library_, e sua declaração deve ser a primeira linha executável do arquivo.
+O grupo _library_ define a estrutura principal de um arquivo Liberty, abrangendo toda a descrição da biblioteca de células. É dentro desse grupo que todos os atributos e subgrupos são organizados. Além disso, é no nível da _library_ que se estabelecem os atributos globais que se aplicam a todas as células da biblioteca. Cada arquivo .lib deve conter apenas um único grupo _library_, e sua declaração precisa ser a primeira linha executável do arquivo. A [Figura 5](#fig-library) ilustra um exemplo de como esse grupo é declarado em um arquivo Liberty.
 
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/01.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+
+<figure id="fig-library">
+  <div class="image-wrapper-colored"> 
+    <img src="/assets/images/001_post/01.png" class="responsive-img" alt="Exemplo de definição de um grupo library no Liberty File"> 
+  </div> 
+  <figcaption>Figura 5: Exemplo de definição de um grupo <em>library</em> em um arquivo Liberty.</figcaption>
+</figure>
 
 ### Templates
 
-Os modelos de tabela (_table templates_) armazenam informações comuns que podem ser usadas por várias tabelas de consulta (_lookup tables_). Um modelo de tabela especifica os parâmetros da tabela e os pontos de interrupção para cada eixo. É necessário atribuir um nome a cada modelo para que as tabelas de consulta possam se referir a ele ao longo do liberty. O modelo de tabela que especifica os atrasos de temporização pode ter até três variáveis (variable_1, variable_2 e variable_3). As variáveis indicam os parâmetros usados para indexar a tabela de consulta ao longo do primeiro, segundo e terceiro eixos da tabela. Os parâmetros incluem o tempo de transição de entrada de um pino restrito, o comprimento da rede de saída e a capacitância, além da carga de saída de um pino relacionado.
-
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/02.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+No arquivo Liberty , os _table templates_ servem como modelos que armazenam informações comuns reutilizadas por várias lookup tables. Cada template define os parâmetros de consulta e os pontos de interrupção (breakpoints) em cada eixo da tabela. Para que uma lookup table possa utilizar um template, é necessário que ele tenha um nome único. Esses _table templates_ são especialmente úteis para representar diferentes tipos de atrasos de temporização e podem conter até três variáveis: variable_1, variable_2 e variable_3. Essas variáveis indicam os parâmetros usados para indexar os dados da tabela ao longo dos seus eixos, como o tempo de transição de entrada de um pino restrito, o comprimento da rede de saída, a capacitância ou a carga de saída de um pino relacionado. Como mostrado na [Figura 6](#fig-templating), os table templates ajudam a organizar e reaproveitar dados de temporização de forma eficiente.
 
 
+<figure id="fig-templating">
+  <div class="image-wrapper-colored">
+    <img src="/assets/images/001_post/02.png" class="responsive-img" alt="Exemplo de definição de table templates no Liberty File">
+  </div>
+  <figcaption>Figura 6: Exemplo de definição de <em>table templates</em>.</figcaption>
+</figure>
 
-Para representar a potência interna, é possível também criar modelos de informações comuns que podem ser usados por várias tabelas de consulta. Utilize o grupo _power_lut_template_ em nível de biblioteca para criar esses modelos. Uma _power_lut_template_ especifica os parâmetros da tabela e os pontos de interrupção para cada eixo. É necessário atribuir um nome a cada modelo para ser referenciado ao longo do liberty.
 
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/03.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+Para representar a potência interna das células no arquivo Liberty, também é possível criar modelos reutilizáveis que armazenam informações comuns para várias _lookup tables_. Para isso, utiliza-se o grupo ***power_lut_template***, definido no nível da biblioteca (dentro do grupo _library_). Esse tipo de template especifica os parâmetros da tabela e os pontos de interrupção (breakpoints) em cada eixo, como exemplificado na [Figura 7](#fig-power-templating). Assim como nos _table templates_, é necessário dar um nome único a cada _power_lut_template_, para que ele possa ser referenciado por diferentes tabelas de potência ao longo do arquivo.
+
+<figure id="fig-power-templating">
+  <div class="image-wrapper-colored">
+    <img src="/assets/images/001_post/03.png" class="responsive-img" alt="Exemplo de definição de power table templates no Liberty File">
+  </div>
+  <figcaption>Figura 7: Exemplo de definição de <em>power table template</em> .</figcaption>
+</figure>
+
 
 ### Grupo _cell_ 
-As descrições de células são uma parte fundamental de uma biblioteca de tecnologia. Elas fornecem informações sobre a área, função e temporização de cada componente em uma tecnologia ASIC. O grupo _cell_ é responsável por conter os atributos e groupos que declaram essas informações.
+As descrições de células são uma parte fundamental de uma biblioteca de tecnologia. Elas fornecem informações sobre a área, função e temporização de cada componente em uma dada biblioteca padrão de células. O grupo _cell_ é responsável por conter os atributos e groupos que declaram essas informações. A [Figura 8](#fig-cell) mostra um exemplo da definição do grupo cell em um arquivo Liberty.
 
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/04.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+
+<figure id="fig-cell">
+  <div class="image-wrapper-colored">
+    <img src="/assets/images/001_post/04.png" class="responsive-img" alt="Exemplo de definição do grupo cell no Liberty File">
+  </div>
+  <figcaption>Figura 8: Exemplo de definição do grupo <em>cell</em> em um arquivo Liberty.</figcaption>
+</figure>
+
 
 ### Grupo _pin_ 
 Para cada pino em uma célula da biblioteca, um grupo _cell_ deve conter auma descrição das características de consumo e atraso do pino. As características do pino são definidas em um grupo _pin_ dentro do grupo _cell_. Um grupo _pin_ geralmente contém um grupo _timing_ e um grupo _internal_power_.
 
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/05.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+Para cada pino dentro de uma célula da biblioteca, o grupo _cell_ deve conter uma descrição detalhada das características desse pino. Essas características são definidas em um grupo _pin_, que pode ser declarado dentro de um grupo _cell_, test_cell, model ou bus. A [Figura 9](#fig-pin) mostra um exemplo da definição do grupo _pin_ em um arquivo Liberty, destacando seus principais campos.
+Normalmente, o grupo _pin_ inclui subgrupos importantes como _timing_, que descreve os atrasos e temporizações associados ao pino, e _internal_power_, que detalha o consumo de potência interno relacionado ao pino.
+
+<figure id="fig-pin">
+  <div class="image-wrapper-colored">
+    <img src="/assets/images/001_post/05.png" class="responsive-img" alt="Exemplo de definição do grupo pin no Liberty File">
+  </div>
+  <figcaption>Figura 9: Exemplo de definição do grupo <em>pin</em> e seus principais campos em um arquivo Liberty.</figcaption>
+</figure>
+
+### Entendendo os Timing Arcs
+Os arcos de temporização (_timing arcs_), junto com as informações de interconexão do netlist, definem os caminhos que o analisador de temporização segue durante a verificação dos caminhos críticos no circuito.
+
+Cada _timing arc_ tem um ponto de partida (startpoint) e um ponto de chegada (endpoint). O ponto de partida pode ser um pino de entrada, saída ou de entrada/saída (I/O). Já o ponto de chegada é sempre um pino de saída ou I/O, com exceção dos arcos de restrição (_constraint timing arc_), como os de _setup_ ou _hold_, que podem ocorrer entre dois pinos de entrada.
+
+Todas as informações de atraso contidas em um arquivo Liberty estão associadas a pares de pinos, como entrada → saída ou saída → saída.
+
+### Arcos de Temporização Combinacionais
+Os arcos de temporização combinacionais descrevem o comportamento de atraso em elementos puramente lógicos, como portas AND, OR, inversores, etc.  
+Esse tipo de arco é conectado a um pino de saída e o pino relacionado pode ser tanto um pino de entrada quanto outro pino de saída. Dependendo do tipo de transição e do comportamento envolvido o arco pode ser classificado em: combinational, combinational_rise, combinational_fall, three_state_disable, three_state_disable_rise entre outros.
+
+Esses diferentes tipos permitem modelar o comportamento do circuito de forma mais detalhada, levando em conta as transições específicas de subida e descida, além do controle de estados tri.
+
+### Arcos de Temporização Sequenciais
+Os arcos sequenciais descrevem o comportamento temporal de elementos que possuem memória, como flip-flops e latches.
+Nesses casos, quando um arco descreve a relação entre uma transição de clock e a saída de dados (entrada → saída), ele é tratado como um arco de atraso (delay arc). Quando descreve a relação entre o clock e a entrada de dados (entrada → entrada), é um arco de restrição (constraint arc).
+Os principais tipos de arcos sequenciais são:
+
+- Sensíveis à borda (rising_edge ou falling_edge)
+- Controle assíncrono (preset, clear)
+- Restrições de setup e hold (setup_rising, setup_falling, hold_rising, hold_falling)
+- Setup e hold não sequenciais (non_seq_setup_rising, etc.)
+- Recuperação e remoção (recovery_rising, removal_falling, etc.)
+- Sem alteração esperada de valor (nochange_high_high, nochange_low_low, etc.)
+
+Esses arcos são fundamentais para a análise de restrições de temporização e integridade dos dados em células sequenciais.
+
+Considere uma célula combinacional simples composta por dois inversores em série (Figura 7-2). Essa célula pode ser modelada de duas formas distintas (Figura 7-3)
+
+- **Modelo A**: Define dois timing arcs diretos, ambos com ponto de partida no pino de entrada A. Um arco vai de A para Y, e o outro de A para Z. É um modelo simples e direto.
+- **Modelo B**: Também define dois arcos, mas de forma mais precisa. O primeiro arco é igual ao do Modelo A (de A para Y). O segundo, no entanto, começa no pino de saída Y e termina em Z. Isso permite modelar com mais fidelidade o impacto da carga conectada a Y no atraso observado em Z.
+
+Esse tipo de arco de saída-para-saída (output-to-output arc) pode ser usado tanto em células combinacionais quanto em sequenciais, trazendo maior precisão à análise de temporização.
 
 ### Grupo _timing_ 
 
@@ -149,11 +220,14 @@ O grupo _timing_ descreve:
 - Tempos de setup e hold em entradas de flip-flop ou latch.
 - Opcionalmente, os nomes dos arcos de temporização.
 
-O grupo _timing_ também descreve as informações de setup e hold quando as informações de restrição se referem a um par de pinos de entrada.
+O grupo _timing_ também descreve as informações de setup e hold quando as informações de restrição se referem a um par de pinos de entrada. A [Figura 10](#fig-timing) exemplifica a estrutura do grupo timing em um arquivo Liberty, mostrando os principais campos e como eles se organizam dentro do grupo pin.
 
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/06.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+<figure id="fig-timing">
+  <div class="image-wrapper-colored">
+    <img src="/assets/images/001_post/06.png" class="responsive-img" alt="Exemplo de definição do grupo timing no Liberty File">
+  </div>
+  <figcaption>Figura 10: Exemplo de definição do grupo <em>timing</em> e seus principais campos em um arquivo Liberty.</figcaption>
+</figure>
 
 Dentro do grupo _timing_, é possível identificar o nome ou os nomes de diferentes arcos de temporização. Um único arco pode ocorrer entre um pino identificado e um único pino relacionado, identificado com o atributo related_pin.
 Múltiplos arcos de temporização podem ocorrer de várias maneiras. A lista a seguir mostra seis possíveis configurações de múltiplos arcos de temporização. As seções descritivas explicam como configurar outras possíveis variações:
@@ -165,28 +239,41 @@ Múltiplos arcos de temporização podem ocorrer de várias maneiras. A lista a 
 - Entre os múltiplos bits identificados de um barramento e os múltiplos pinos de um barramento relacionado (com uma largura designada).
 - Entre o pino interno e todos os bits do grupo de barramento de ponto final.  
 
-<div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/07.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
-</div>
+A [Figura 11](#fig-multiarcs) ilustra essas diferentes configurações possíveis para múltiplos arcos de temporização dentro do grupo timing.
+
+<figure id="fig-multiarcs"> 
+  <div class="image-wrapper-colored"> 
+    <img src="/assets/images/001_post/07.png" class="responsive-img" alt="Exemplo de múltiplos arcos de temporização no grupo timing do Liberty File"> 
+  </div> 
+  <figcaption>Figura 11: Exemplo das diversas configurações possíveis de múltiplos arcos de temporização dentro do grupo <em>timing</em>.</figcaption> 
+</figure>
 
 
-Agora que já exploramos os principais elementos que compõem a estrutura de um arquivo Liberty, podemos representar sua organização de forma mais clara por meio de uma hierarquia, como mostrado na Figura 3. Essa representação visual ajuda a entender como as informações estão estruturadas dentro do arquivo .lib, facilitando a leitura e a navegação pelos diferentes blocos de dados, como células, pinos, arcos de temporização e parâmetros tecnológicos.
+Agora que já exploramos os principais elementos que compõem a estrutura de um arquivo Liberty, podemos representar sua organização de forma mais clara por meio de uma hierarquia, como mostrado na [Figura 12](#fig-hierarchy). Essa representação visual ajuda a entender como as informações estão estruturadas dentro do arquivo .lib, facilitando a leitura e a navegação pelos diferentes blocos de dados, como células, pinos, arcos de temporização e parâmetros tecnológicos.
 
 
-![Desktop View](/assets/images/001_post/hierarchy.png){: width="972" height="589" .responsive-img-post-12}
-_Figura 5: Representação hierárquica do arquivo Liberty_
+<figure id="fig-hierarchy">
+  <div class="image-wrapper-clear">
+    <img src="/assets/images/001_post/hierarchy.png" class="responsive-img-post-12" alt="Representação hierárquica do arquivo Liberty">
+  </div>
+  <figcaption>Figura 12: Representação hierárquica do arquivo <em>Liberty</em>.</figcaption>
+</figure>
+
 
 ### Exemplo de cálculo de atraso usando Non-Linear Delay Model (NLDM)
 
-Vamos supor que queremos calcular o atraso de propagação (tpd) de uma porta inversora (sg13g2_inv_1) em uma biblioteca caracterizada usando NLDM mostrada na Figura 5. Para isso, precisamos de dois parâmetros de entrada:
+Vamos supor que queremos calcular o atraso de propagação (tpd) de uma porta inversora (sg13g2_inv_1) em uma biblioteca caracterizada usando NLDM mostrada na [Figura 13](#fig-nldm-example). Para isso, precisamos de dois parâmetros de entrada:
 - Transição da entrada (input net transition): 0.174 ns
 - Capacitância de carga na saída (Cload): 0.039 pF
 
 Esses dois valores serão usados como índices para acessar uma tabela de atraso (delay table) no arquivo .lib. As tabelas geralmente são 2D, com uma dimensão para a transição de entrada e outra para a carga de saída.
 
-
-![Desktop View](/assets/images/001_post/nldm_example.png){: width="972" height="589" .responsive-img-post-11}
-_Figura 5: Exemplo cálculo de atraso usando NLDM_
+<figure id="fig-nldm-example">
+  <div class="image-wrapper-clear">
+    <img src="/assets/images/001_post/nldm_example.png" class="responsive-img-12" alt="Exemplo cálculo de atraso usando NLDM">
+  </div>
+  <figcaption>Figura 13: Exemplo de cálculo de atraso usando <em>NLDM</em>.</figcaption>
+</figure>
 
 
 Localizamos os índices na tabela:
@@ -204,7 +291,7 @@ Arquivos liberty podem ainda ser gerados para blocos ou IPs digitais ou analógi
 As informações relevantes do liberty dependem das restrições que precisam ser respeitadas no bloco na integração de topo (top integration), para usar o mecanismo de STA e permitir otimizações.
 
 <div class="image-wrapper-custom">
-  <img src="/assets/images/001_post/08.png" width="972" height="589" class="responsive-img-post-12" alt="Desktop View">
+  <img src="/assets/images/001_post/08.png" width="972" height="589" class="responsive-img-12" alt="Desktop View">
 </div>
 
 
