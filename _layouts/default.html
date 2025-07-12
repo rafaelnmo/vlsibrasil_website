@@ -52,7 +52,8 @@ endif %}
 
             {% for _include in layout.panel_includes %} {% assign _include_path
             = _include | append: '.html' %} {% include {{ _include_path }}
-            lang=lang %} {% endfor %}
+            lang=lang %} {% endfor %} {% include_cached ad-panel-wrapper.html
+            lang=lang %}
           </aside>
         </div>
 
