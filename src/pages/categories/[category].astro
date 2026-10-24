@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, groupBy, layerOf, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return groupBy(await getPosts(), 'categories').map((c) => ({
+    params: { category: c.slug },
+    props: { name: c.name, posts: c.posts },
+  }));
+}
+
+const { name, posts } = Astro.props as { name: string; posts: Post[] };
+---
+
+<Base title={name} description={`Artigos do VLSI Brasil na categoria ${name}.`}>
+  <div class="container">
+    <header class="page-head">
+      <span class="chip" data-layer={layerOf(name)}>categoria</span>
+      <h1>{name}</h1>
+      <p>{posts.length} {posts.length === 1 ? 'artigo' : 'artigos'} · <a href="/categories/">todas as categorias</a></p>
+    </header>
+    <div class="grid-posts">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page-head a {
+    color: var(--brand);
+  }
+</style>

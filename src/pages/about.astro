@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { AUTHORS, SITE, SOCIAL } from '../config';
+
+const rafael = AUTHORS.rafael;
+---
+
+<Base title="Sobre" description="Conheça o VLSI Brasil, blog sobre projeto de circuitos integrados em português.">
+  <div class="container narrow">
+    <header class="page-head">
+      <p class="eyebrow">// sobre</p>
+      <h1>Projetando juntos o futuro do ASIC no Brasil</h1>
+    </header>
+
+    <div class="content">
+      <p>
+        O VLSI Brasil é o lugar para quem busca <strong>tutoriais detalhados sobre as etapas do fluxo de projeto
+        digital</strong> e quer <strong>aprender a usar ferramentas de EDA</strong>, proprietárias e open source.
+      </p>
+      <p>
+        Com paixão pela tecnologia e experiência na área, queremos <strong>compartilhar conhecimento</strong> e ajudar
+        você a expandir seus horizontes na indústria de semicondutores — tudo em português.
+      </p>
+
+      <div class="card">
+        <Logo height={44} />
+        <div>
+          <p class="mono label">// autor</p>
+          <p class="name">{rafael.name}</p>
+          <a class="mono" href={rafael.url}>{rafael.url?.replace(/^https?:\/\//, '')}</a>
+        </div>
+      </div>
+
+      <h2>Fale com a gente</h2>
+      <p>
+        Sugestões de tema, correções ou parcerias: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Siga também
+        nas redes:
+        {SOCIAL.map((s, i) => <>{i > 0 && ', '}<a href={s.url} target="_blank" rel="noopener">{s.name}</a></>)}.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .narrow {
+    max-width: 780px;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-size: 1.0625rem;
+  }
+  .content a {
+    color: var(--brand);
+  }
+  h2 {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-block: 1rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .label {
+    color: var(--muted);
+  }
+  .name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+import Logo from './Logo.astro';
+import { NAV, SITE, SOCIAL } from '../config';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container cols">
+    <div class="about">
+      <a href="/" class="brand" aria-label="VLSI Brasil">
+        <Logo height={30} />
+      </a>
+      <p>{SITE.tagline}.</p>
+      <a class="mono mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </div>
+
+    <nav aria-label="Rodapé">
+      <h3 class="mono">// site</h3>
+      {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href="/feed.xml">RSS</a>
+    </nav>
+
+    <nav aria-label="Redes sociais">
+      <h3 class="mono">// redes</h3>
+      {SOCIAL.map((s) => <a href={s.url} rel="noopener" target="_blank">{s.name}</a>)}
+    </nav>
+  </div>
+
+  <div class="container legal mono">
+    <span>© {year} VLSI Brasil</span>
+    <span>tapeout: <time datetime={new Date().toISOString()}>{new Date().toLocaleDateString('pt-BR')}</time></span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    padding-block: 3rem 2rem;
+  }
+  .about p {
+    color: var(--muted);
+    margin-block: 1rem 0.5rem;
+    max-width: 36ch;
+  }
+  .mail {
+    color: var(--brand);
+  }
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  nav h3 {
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  nav a {
+    color: var(--text);
+    font-size: 0.9375rem;
+  }
+  nav a:hover {
+    color: var(--brand);
+  }
+  .legal {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+  }
+  @media (max-width: 640px) {
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

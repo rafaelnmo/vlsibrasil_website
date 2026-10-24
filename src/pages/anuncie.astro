@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+
+const formats = [
+  {
+    name: 'Banner na página inicial',
+    where: 'home-banner',
+    text: 'Faixa horizontal logo abaixo do artigo em destaque. A primeira coisa que o leitor vê depois do conteúdo principal.',
+  },
+  {
+    name: 'Lateral dos artigos',
+    where: 'post-sidebar',
+    text: 'Bloco fixo ao lado do sumário, visível durante toda a leitura de um tutorial (desktop).',
+  },
+  {
+    name: 'Final dos artigos',
+    where: 'post-end',
+    text: 'Logo após o conteúdo, quando o leitor terminou o tutorial e está procurando o próximo passo.',
+  },
+  {
+    name: 'Artigo patrocinado',
+    where: 'conteúdo',
+    text: 'Tutorial técnico sobre sua ferramenta, curso ou tecnologia, identificado como patrocinado.',
+  },
+  {
+    name: 'Divulgação de vagas',
+    where: 'vagas',
+    text: 'Divulgue vagas de design, verificação, layout ou CAD para quem já estuda o assunto.',
+  },
+];
+
+const subject = encodeURIComponent('Anunciar no VLSI Brasil');
+---
+
+<Base title="Anuncie" description="Anuncie no VLSI Brasil e alcance engenheiros e estudantes de microeletrônica no Brasil.">
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">// anuncie</p>
+      <h1>Fale direto com quem projeta chips no Brasil</h1>
+      <p>
+        Os leitores do VLSI Brasil são estudantes, pesquisadores e engenheiros de microeletrônica que chegam aqui
+        procurando aprender um fluxo, um formato de arquivo ou uma ferramenta de EDA. Um público pequeno, mas
+        exatamente o certo para empresas de semicondutores, design houses, cursos e fornecedores de EDA.
+      </p>
+      <a class="btn btn-primary" href={`mailto:${SITE.email}?subject=${subject}`}>Pedir mídia kit →</a>
+    </header>
+
+    <section class="section">
+      <div class="section-head"><h2>Formatos</h2></div>
+      <div class="formats">
+        {
+          formats.map((f) => (
+            <article class="format">
+              <span class="mono slot">{f.where}</span>
+              <h3>{f.name}</h3>
+              <p>{f.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="contact">
+      <h2>Vamos conversar</h2>
+      <p>
+        Envie um e-mail para <a href={`mailto:${SITE.email}?subject=${subject}`}>{SITE.email}</a> contando o que você
+        quer divulgar. Respondemos com números de audiência atualizados e valores.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head .btn {
+    margin-top: 1.75rem;
+  }
+  .formats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 1rem;
+  }
+  .format {
+    padding: 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .slot {
+    color: var(--brand);
+  }
+  .format h3 {
+    margin-block: 0.5rem 0.6rem;
+    font-size: 1.2rem;
+  }
+  .format p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+  .contact {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--radius);
+    border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--border));
+    background: color-mix(in srgb, var(--brand) 6%, var(--surface));
+  }
+  .contact h2 {
+    font-size: 1.6rem;
+  }
+  .contact p {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+  .contact a {
+    color: var(--brand);
+  }
+</style>

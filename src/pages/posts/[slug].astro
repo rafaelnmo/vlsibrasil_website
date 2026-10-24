@@ -1,0 +1,360 @@
+---
+import 'katex/dist/katex.min.css';
+import '../../styles/prose.css';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import PostCard from '../../components/PostCard.astro';
+import { AUTHORS, SITE } from '../../config';
+import { excerpt, formatDate, getPosts, layerOf, readingTime, relatedPosts, slugify, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1], all: posts },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+  all: Post[];
+}
+const { post, newer, older, all } = Astro.props;
+const { Content, headings } = await render(post);
+const { title, date, updated, categories, tags, cover, author } = post.data;
+const authorInfo = AUTHORS[author] ?? { name: author };
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const related = relatedPosts(post, all);
+const url = new URL(`/posts/${post.id}/`, SITE.url).toString();
+const share = [
+  { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}` },
+  { name: 'X', href: `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}` },
+  { name: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}` },
+];
+---
+
+<Base title={title} description={excerpt(post, 160)} image={cover} type="article" publishedTime={date}>
+  <article>
+    <header class="container post-head">
+      <div class="chips">
+        {
+          categories.map((c, i) => (
+            <a class="chip" data-layer={layerOf(categories[0])} href={i === 0 ? `/categories/${slugify(c)}/` : undefined}>
+              {c}
+            </a>
+          ))
+        }
+        {post.data.draft && <span class="chip" data-layer="poly">rascunho</span>}
+      </div>
+      <h1>{title}</h1>
+      <div class="byline mono">
+        {authorInfo.avatar && <img src={authorInfo.avatar} alt="" width="28" height="28" />}
+        <span>{authorInfo.url ? <a href={authorInfo.url}>{authorInfo.name}</a> : authorInfo.name}</span>
+        <span class="dot">·</span>
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        {updated && <span>(atualizado em {formatDate(updated)})</span>}
+        <span class="dot">·</span>
+        <span>{readingTime(post.body)} min de leitura</span>
+      </div>
+      {cover && <img class="cover" src={cover} alt="" />}
+    </header>
+
+    <div class="container layout">
+      <div class="prose">
+        <Content />
+
+        {
+          tags.length > 0 && (
+            <div class="post-tags">
+              {tags.map((t) => (
+                <a class="tag" href={`/tags/${slugify(t)}/`}>#{t}</a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <aside class="side">
+        {
+          toc.length > 0 && (
+            <nav class="toc" aria-label="Neste artigo">
+              <p class="mono side-title">// neste artigo</p>
+              <ol>
+                {toc.map((h) => (
+                  <li class={`d${h.depth}`}>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+        <div class="share">
+          <p class="mono side-title">// compartilhar</p>
+          <div>
+            {share.map((s) => <a class="btn share-btn" href={s.href} target="_blank" rel="noopener">{s.name}</a>)}
+            <button class="btn share-btn" type="button" data-copy-url={url}>Copiar link</button>
+          </div>
+        </div>
+        <AdSlot slot="post-sidebar" variant="box" />
+      </aside>
+    </div>
+  </article>
+
+  <div class="container end">
+    <AdSlot slot="post-end" />
+
+    {
+      (newer || older) && (
+        <nav class="pager" aria-label="Outros artigos">
+          {older ? (
+            <a href={`/posts/${older.id}/`}>
+              <span class="mono">← anterior</span>
+              <span>{older.data.title}</span>
+            </a>
+          ) : <span />}
+          {newer && (
+            <a href={`/posts/${newer.id}/`} class="next">
+              <span class="mono">próximo →</span>
+              <span>{newer.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+
+    {
+      related.length > 0 && (
+        <section class="related">
+          <div class="section-head">
+            <h2>Continue lendo</h2>
+          </div>
+          <div class="grid-posts">
+            {related.map((p) => (
+              <PostCard post={p} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Base>
+
+<script>
+  // Botão "copiar" nos blocos de código
+  document.querySelectorAll<HTMLPreElement>('.prose pre.astro-code').forEach((pre) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+    pre.replaceWith(wrap);
+    wrap.append(pre);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy-btn';
+    btn.textContent = 'copiar';
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(pre.innerText);
+      btn.textContent = 'copiado!';
+      setTimeout(() => (btn.textContent = 'copiar'), 1500);
+    });
+    wrap.append(btn);
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-url]').forEach((btn) =>
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(btn.dataset.copyUrl!);
+      btn.textContent = 'Link copiado!';
+    }),
+  );
+
+  // Destaca no sumário a seção que está sendo lida
+  const links = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>('.toc a')].map((a) => [decodeURIComponent(a.hash.slice(1)), a]),
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        links.forEach((a) => a.classList.remove('active'));
+        links.get(e.target.id)?.classList.add('active');
+      }
+    },
+    { rootMargin: '-80px 0px -70% 0px' },
+  );
+  links.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+
+<style>
+  .post-head {
+    max-width: 920px;
+    padding-top: clamp(32px, 6vw, 64px);
+    text-align: center;
+  }
+  .chips {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin-top: 1.25rem;
+  }
+  .byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    color: var(--muted);
+  }
+  .byline img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .byline a:hover {
+    color: var(--brand);
+  }
+  .dot {
+    opacity: 0.5;
+  }
+  .cover {
+    width: 100%;
+    margin-top: 2.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 720px) 280px;
+    justify-content: center;
+    gap: clamp(2rem, 5vw, 4rem);
+    margin-top: 2.5rem;
+  }
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    position: sticky;
+    top: 88px;
+    align-self: start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .side-title {
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--border);
+  }
+  .toc a {
+    display: block;
+    padding: 0.3rem 0 0.3rem 0.9rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .toc .d3 a {
+    padding-left: 1.7rem;
+    font-size: 0.8125rem;
+  }
+  .toc a:hover {
+    color: var(--text);
+  }
+  .toc a.active {
+    color: var(--brand);
+    border-left-color: var(--brand);
+  }
+  .share div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .share-btn {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .end {
+    max-width: 1064px;
+    margin-top: 3.5rem;
+  }
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-weight: 600;
+  }
+  .pager a:hover {
+    border-color: var(--brand);
+  }
+  .pager .mono {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .pager .next {
+    text-align: right;
+    grid-column: 2;
+  }
+  .related {
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 1040px) {
+    .layout {
+      grid-template-columns: minmax(0, 720px);
+    }
+    .side {
+      position: static;
+      max-height: none;
+    }
+    .toc,
+    .side :global(.ad) {
+      display: none;
+    }
+  }
+  @media (max-width: 600px) {
+    .pager {
+      grid-template-columns: 1fr;
+    }
+    .pager .next {
+      grid-column: 1;
+    }
+  }
+</style>

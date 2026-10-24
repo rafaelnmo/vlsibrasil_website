@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Página não encontrada">
+  <div class="container wrap">
+    <p class="mono code">ERROR: net '/{Astro.url.pathname.replace(/^\//, '')}' is unconnected (404)</p>
+    <h1>Essa rota não fechou.</h1>
+    <p class="muted">A página que você procura não existe ou mudou de lugar.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="/">Voltar ao início</a>
+      <a class="btn" href="/posts/">Ver artigos</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .wrap {
+    padding-block: clamp(64px, 12vw, 140px);
+    text-align: center;
+  }
+  .code {
+    color: var(--layer-poly);
+  }
+  h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    margin-top: 1rem;
+  }
+  .muted {
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  .cta {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

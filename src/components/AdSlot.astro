@@ -1,0 +1,104 @@
+---
+// Espaço publicitário. A ordem de escolha está explicada em src/config.ts (ADS).
+import { ADS, type AdSlotName } from '../config';
+
+interface Props {
+  slot: AdSlotName;
+  variant?: 'banner' | 'box';
+}
+const { slot, variant = 'banner' } = Astro.props;
+
+const sponsor = ADS.sponsors[slot];
+const adsenseSlot = ADS.adsense.enabled ? ADS.adsense.slots[slot] : undefined;
+const show = sponsor || adsenseSlot || ADS.houseAds;
+---
+
+{
+  show && (
+    <aside class:list={['ad', variant]} aria-label="Publicidade">
+      <span class="ad-label mono">publicidade</span>
+
+      {sponsor ? (
+        <a class="sponsor" href={sponsor.url} rel="sponsored noopener" target="_blank">
+          {sponsor.image && <img src={sponsor.image} alt={sponsor.name} loading="lazy" />}
+          {sponsor.text && <span>{sponsor.text}</span>}
+        </a>
+      ) : adsenseSlot ? (
+        <>
+          <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-client={ADS.adsense.client}
+            data-ad-slot={adsenseSlot}
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+          <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </>
+      ) : (
+        <a class="house" href="/anuncie/">
+          <span class="house-title">Sua marca aqui</span>
+          <span class="house-text">
+            Fale com engenheiros e estudantes de semicondutores do Brasil.
+          </span>
+          <span class="house-cta mono">anuncie →</span>
+        </a>
+      )}
+    </aside>
+  )
+}
+
+<style>
+  .ad {
+    position: relative;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 1.6rem 1rem 1rem;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+  }
+  .ad-label {
+    position: absolute;
+    top: 0.45rem;
+    left: 0.75rem;
+    font-size: 0.6875rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .sponsor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+  }
+  .house {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    text-align: center;
+    min-height: 60px;
+  }
+  .house-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .house-text {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .house-cta {
+    color: var(--brand);
+  }
+  .house:hover .house-cta {
+    text-decoration: underline;
+  }
+  .box .house {
+    flex-direction: column;
+    min-height: 200px;
+    gap: 0.6rem;
+  }
+</style>

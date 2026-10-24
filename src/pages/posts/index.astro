@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getPosts, groupBy, layerOf } from '../../lib/posts';
+
+const posts = await getPosts();
+const categories = groupBy(posts, 'categories');
+const first = posts.slice(0, 6);
+const rest = posts.slice(6);
+---
+
+<Base title="Artigos" description="Todos os artigos do VLSI Brasil sobre projeto de circuitos integrados.">
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">// todos os artigos</p>
+      <h1>Artigos</h1>
+      <p>{posts.length} artigos sobre fluxo digital, formatos de arquivo, PDKs e ferramentas de EDA.</p>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filtrar por categoria">
+      <a class="chip active" href="/posts/">todas</a>
+      {categories.map((c) => <a class="chip" data-layer={layerOf(c.name)} href={`/categories/${c.slug}/`}>{c.name}</a>)}
+    </div>
+
+    <div class="grid-posts">
+      {first.map((post) => <PostCard post={post} />)}
+    </div>
+    {
+      rest.length > 0 && (
+        <>
+          <div class="inline-ad"><AdSlot slot="list-inline" /></div>
+          <div class="grid-posts">
+            {rest.map((post) => <PostCard post={post} />)}
+          </div>
+        </>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .filters .active {
+    --c: var(--text);
+  }
+  .inline-ad {
+    margin-block: 1.25rem;
+  }
+</style>

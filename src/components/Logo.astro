@@ -1,0 +1,35 @@
+---
+// Marca "VLSI" redesenhada em SVG a partir do logo original (logo_website.png).
+interface Props {
+  height?: number;
+  class?: string;
+}
+const { height = 28, class: className } = Astro.props;
+const id = `lg-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 1225 463"
+  height={height}
+  width={(height * 1225) / 463}
+  role="img"
+  aria-label="VLSI"
+>
+  <defs>
+    <linearGradient id={id} x1="0" x2="1225" y1="0" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#04a462"></stop>
+      <stop offset="1" stop-color="#0be016"></stop>
+    </linearGradient>
+  </defs>
+  <g fill={`url(#${id})`}>
+    <polygon points="0,135 88,47 328,286 460,154 460,330 328,463"></polygon>
+    <rect x="460" y="0" width="126" height="463"></rect>
+    <rect x="460" y="338" width="640" height="125"></rect>
+    <rect x="973" y="141" width="127" height="322"></rect>
+    <rect x="635" y="141" width="465" height="125"></rect>
+    <rect x="635" y="0" width="323" height="125"></rect>
+    <rect x="635" y="0" width="126" height="266"></rect>
+    <rect x="1100" y="0" width="125" height="141"></rect>
+  </g>
+</svg>

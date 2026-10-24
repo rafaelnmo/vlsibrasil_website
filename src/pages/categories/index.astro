@@ -1,0 +1,108 @@
+---
+import Base from '../../layouts/Base.astro';
+import { formatDate, getPosts, groupBy, layerOf } from '../../lib/posts';
+
+const posts = await getPosts();
+const categories = groupBy(posts, 'categories');
+const tags = groupBy(posts, 'tags');
+---
+
+<Base title="Categorias" description="Artigos do VLSI Brasil organizados por categoria e tag.">
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">// layer map</p>
+      <h1>Categorias</h1>
+      <p>Cada categoria tem a cor de uma camada, como no seu editor de layout favorito.</p>
+    </header>
+
+    <div class="cats">
+      {
+        categories.map((c) => (
+          <section class="cat" data-layer={layerOf(c.name)}>
+            <h2>
+              <a href={`/categories/${c.slug}/`}>{c.name}</a>
+              <span class="mono">{c.posts.length}</span>
+            </h2>
+            <ul>
+              {c.posts.map((p) => (
+                <li>
+                  <a href={`/posts/${p.id}/`}>{p.data.title}</a>
+                  <time class="mono">{formatDate(p.data.date)}</time>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="section">
+      <div class="section-head"><h2>Tags</h2></div>
+      <div class="tags">
+        {tags.map((t) => <a class="tag" href={`/tags/${t.slug}/`}>#{t.name} <sup>{t.posts.length}</sup></a>)}
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 1rem;
+  }
+  .cat {
+    --c: var(--brand);
+    padding: 1.25rem 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--c);
+    border-radius: var(--radius);
+  }
+  .cat[data-layer='m1'] { --c: var(--layer-m1); }
+  .cat[data-layer='m2'] { --c: var(--layer-m2); }
+  .cat[data-layer='m3'] { --c: var(--layer-m3); }
+  .cat[data-layer='poly'] { --c: var(--layer-poly); }
+  .cat[data-layer='diff'] { --c: var(--layer-diff); }
+  .cat[data-layer='via'] { --c: var(--layer-via); }
+  .cat h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 1.35rem;
+  }
+  .cat h2 a:hover {
+    color: var(--c);
+  }
+  .cat h2 .mono {
+    color: var(--muted);
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.45rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.9375rem;
+  }
+  li a:hover {
+    color: var(--brand);
+  }
+  li time {
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+  }
+  .tags .tag {
+    font-size: 0.9375rem;
+  }
+</style>
