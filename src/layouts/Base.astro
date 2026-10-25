@@ -25,6 +25,8 @@ const ogImage = new URL(image, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <!-- Verificação do AdSense: não mostra anúncios, fica mesmo com adsense.enabled = false -->
+    <meta name="google-adsense-account" content={ADS.adsense.client} />
     <link rel="canonical" href={canonical} />
 
     <meta property="og:type" content={type} />
