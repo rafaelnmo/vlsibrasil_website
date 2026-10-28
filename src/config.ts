@@ -5,7 +5,7 @@ export const SITE = {
   tagline: 'Desvendando o projeto de circuitos integrados no Brasil',
   description:
     'Tutoriais e artigos em português sobre projeto de circuitos integrados, fluxo digital, ferramentas de EDA e a indústria de semicondutores.',
-  url: 'https://vlsibrasil.com.br',
+  url: 'https://www.vlsibrasil.com.br',
   lang: 'pt-BR',
   email: 'vlsibrasil@gmail.com',
   ogImage: '/assets/images/favicon_io/android-chrome-512x512.png',
@@ -47,13 +47,17 @@ export type AdSlotName = 'home-banner' | 'post-sidebar' | 'post-end' | 'list-inl
 export const ADS = {
   adsense: {
     enabled: false, // mude para true depois que o AdSense aprovar o site
+    // Carrega o script do AdSense no <head> de todas as páginas, mesmo com `enabled: false`.
+    // O Google pede o script durante a análise; sem blocos <ins> ele não mostra anúncios.
+    loadScript: true,
     client: 'ca-pub-5534092442005229',
+    // Blocos criados no painel do AdSense (Anúncios → Por bloco de anúncios).
     slots: {
-      'home-banner': '2298956700',
-      'post-sidebar': '2298956700',
-      'post-end': '2414506773',
-      'list-inline': '2298956700',
-    } as Partial<Record<AdSlotName, string>>,
+      'home-banner': { id: '7148053110' }, // feed
+      'list-inline': { id: '7148053110' }, // feed
+      'post-sidebar': { id: '2298956700' }, // bloco-lateral
+      'post-end': { id: '2414506773', format: 'autorelaxed' }, // footer (multiplex)
+    } as Partial<Record<AdSlotName, { id: string; format?: 'auto' | 'autorelaxed' }>>,
   },
   houseAds: true,
   // Exemplo de patrocinador direto:

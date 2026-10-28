@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+
+const updated = new Date('2026-10-28');
+---
+
+<Base
+  title="Política de Privacidade"
+  description="Como o VLSI Brasil trata dados de visitantes, cookies e anúncios do Google AdSense."
+>
+  <div class="container narrow">
+    <header class="page-head">
+      <p class="eyebrow">// privacidade</p>
+      <h1>Política de Privacidade</h1>
+      <p class="updated mono">
+        Última atualização: <time datetime={updated.toISOString()}>{updated.toLocaleDateString('pt-BR')}</time>
+      </p>
+    </header>
+
+    <div class="content">
+      <p>
+        Esta política explica quais dados são coletados quando você visita o <strong>{SITE.title}</strong>
+        ({SITE.url.replace(/^https?:\/\//, '')}), como eles são usados e quais são os seus direitos, de acordo com a
+        Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018) e o Regulamento Geral de Proteção de Dados europeu
+        (GDPR).
+      </p>
+
+      <h2>Quem somos</h2>
+      <p>
+        O {SITE.title} é um blog sobre projeto de circuitos integrados mantido por Rafael Oliveira. Para qualquer
+        assunto sobre esta política, escreva para <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>Dados que coletamos</h2>
+      <p>
+        O site não tem cadastro, login nem formulários. Não pedimos nem guardamos seu nome, e-mail ou qualquer outro
+        dado pessoal. Se você nos escrever por e-mail, usamos seu endereço apenas para responder.
+      </p>
+      <p>
+        O site é hospedado no <strong>GitHub Pages</strong>, que pode registrar dados técnicos de acesso (como endereço
+        IP e navegador) para segurança e funcionamento do serviço. Veja a
+        <a href="https://docs.github.com/pt/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">declaração de privacidade do GitHub</a>.
+      </p>
+
+      <h2>Cookies e armazenamento local</h2>
+      <p>
+        Cookies são pequenos arquivos que o site guarda no seu navegador. O próprio {SITE.title} guarda apenas a sua
+        preferência de tema (claro ou escuro) no armazenamento local do navegador. Essa informação não sai do seu
+        computador.
+      </p>
+      <p>
+        Os cookies de terceiros usados no site vêm da publicidade, descrita abaixo. Você pode apagar ou bloquear
+        cookies nas configurações do seu navegador; o site continua funcionando normalmente.
+      </p>
+
+      <h2>Publicidade (Google AdSense)</h2>
+      <p>
+        Usamos o <strong>Google AdSense</strong> para exibir anúncios. Sobre isso:
+      </p>
+      <ul>
+        <li>
+          Fornecedores terceiros, incluindo o Google, usam cookies para veicular anúncios com base em visitas
+          anteriores do usuário a este site ou a outros sites.
+        </li>
+        <li>
+          O uso de cookies de publicidade permite que o Google e seus parceiros veiculem anúncios com base nas suas
+          visitas a este site e/ou a outros sites na Internet.
+        </li>
+        <li>
+          Você pode desativar a publicidade personalizada nas
+          <a href="https://adssettings.google.com/" target="_blank" rel="noopener">Configurações de anúncios do Google</a>.
+          Também é possível desativar cookies de fornecedores terceiros em
+          <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">www.aboutads.info</a>.
+        </li>
+        <li>
+          Saiba mais em
+          <a href="https://policies.google.com/technologies/partner-sites?hl=pt-BR" target="_blank" rel="noopener">Como o Google usa informações de sites ou apps que utilizam os serviços do Google</a>
+          e na <a href="https://policies.google.com/technologies/ads?hl=pt-BR" target="_blank" rel="noopener">política de publicidade do Google</a>.
+        </li>
+      </ul>
+      <p>
+        Para visitantes do Espaço Econômico Europeu, do Reino Unido e da Suíça, o consentimento para cookies de
+        publicidade é pedido por uma mensagem do Google antes de qualquer anúncio personalizado.
+      </p>
+
+      <h2>Links externos</h2>
+      <p>
+        Os artigos têm links para outros sites, como documentação de ferramentas e redes sociais. Não somos
+        responsáveis pelas práticas de privacidade desses sites; recomendamos ler as políticas de cada um.
+      </p>
+
+      <h2>Seus direitos</h2>
+      <p>
+        Pela LGPD você pode pedir confirmação de tratamento, acesso, correção ou exclusão dos seus dados, além de
+        revogar consentimentos. Como não guardamos dados pessoais além de e-mails recebidos, basta escrever para
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Sobre os dados tratados pelo Google, use as ferramentas
+        indicadas acima.
+      </p>
+
+      <h2>Mudanças nesta política</h2>
+      <p>
+        Esta página pode ser atualizada quando o site mudar. A data no topo indica a última revisão.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .narrow {
+    max-width: 780px;
+  }
+  .updated {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-size: 1.0625rem;
+  }
+  .content a {
+    color: var(--brand);
+  }
+  .content ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  h2 {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+  }
+</style>

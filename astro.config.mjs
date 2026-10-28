@@ -6,7 +6,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-  site: 'https://vlsibrasil.com.br',
+  site: 'https://www.vlsibrasil.com.br',
   trailingSlash: 'always',
   integrations: [sitemap()],
   markdown: {

@@ -59,7 +59,7 @@ const ogImage = new URL(image, Astro.site);
     </script>
 
     {
-      ADS.adsense.enabled && (
+      (ADS.adsense.enabled || ADS.adsense.loadScript) && (
         <script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADS.adsense.client}`}

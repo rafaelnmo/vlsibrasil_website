@@ -29,9 +29,9 @@ const show = sponsor || adsenseSlot || ADS.houseAds;
             class="adsbygoogle"
             style="display:block"
             data-ad-client={ADS.adsense.client}
-            data-ad-slot={adsenseSlot}
-            data-ad-format="auto"
-            data-full-width-responsive="true"
+            data-ad-slot={adsenseSlot.id}
+            data-ad-format={adsenseSlot.format ?? 'auto'}
+            data-full-width-responsive={adsenseSlot.format === 'autorelaxed' ? undefined : 'true'}
           />
           <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </>
