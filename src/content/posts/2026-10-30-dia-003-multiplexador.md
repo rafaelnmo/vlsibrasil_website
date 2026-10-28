@@ -1,6 +1,6 @@
 ---
 title: "Dia 003 - Multiplexador"
-description: "Dia 003 do Desafio 100 Dias de RTL: o multiplexador 4x1 parametrizável, do mapa de Karnaugh à árvore de muxes, com always @(*), case, testes dirigidos e aleatórios no Icarus Verilog e GTKWave."
+description: "Dia 003 do 100 Dias de RTL: o multiplexador 4x1 parametrizável, do mapa de Karnaugh à árvore de muxes, com always @(*), case, testes dirigidos e aleatórios no Icarus Verilog e GTKWave."
 date: 2026-10-30
 author: rafael
 categories: ["100 Dias de RTL", "Verilog"]
@@ -85,7 +85,7 @@ Desta vez descrevemos o circuito com um bloco `always` combinacional e uma estru
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 003 - Multiplexador 4x1
 // ----------------------------------------------------------------------------
 // Descrição : Seleciona uma de quatro entradas de WIDTH bits e a envia para
@@ -137,7 +137,7 @@ Com 18 bits de entrada, testar todas as 262.144 combinações ainda seria possí
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 003 - Testbench do Multiplexador 4x1
 // ============================================================================
 

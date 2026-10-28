@@ -75,6 +75,13 @@
   margin-inline: auto;
 }
 
+/* sem ligaduras no código: em Verilog "!==", "<=" e "->" devem aparecer como digitados */
+.prose code,
+.prose pre {
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'calt' 0;
+}
+
 /* código inline */
 .prose :not(pre) > code {
   font-family: var(--font-mono);

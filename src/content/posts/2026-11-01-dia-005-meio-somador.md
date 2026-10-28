@@ -1,6 +1,6 @@
 ---
 title: "Dia 005 - Meio Somador"
-description: "Dia 005 do Desafio 100 Dias de RTL: o meio somador (half adder), da soma binária ao circuito com XOR e AND, com mapas de Karnaugh, código Verilog, testbench e simulação no Icarus Verilog e GTKWave."
+description: "Dia 005 do 100 Dias de RTL: o meio somador (half adder), da soma binária ao circuito com XOR e AND, com mapas de Karnaugh, código Verilog, testbench e simulação no Icarus Verilog e GTKWave."
 date: 2026-11-01
 author: rafael
 categories: ["100 Dias de RTL", "Verilog"]
@@ -72,7 +72,7 @@ O meio somador é simplesmente uma **porta XOR** (para a soma) e uma **porta AND
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 005 - Meio Somador (Half Adder)
 // ----------------------------------------------------------------------------
 // Descrição : Soma dois bits, gerando o bit de soma (sum) e o bit de
@@ -106,7 +106,7 @@ O código é uma tradução direta das expressões booleanas. Hoje o circuito é
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 005 - Testbench do Meio Somador
 // ============================================================================
 

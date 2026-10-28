@@ -1,6 +1,6 @@
 ---
 title: "Dia 004 - Demultiplexador"
-description: "Dia 004 do Desafio 100 Dias de RTL: o demultiplexador 1x4 parametrizável, com expressões booleanas, circuito em portas lógicas, código Verilog, testbench e simulação no Icarus Verilog e GTKWave."
+description: "Dia 004 do 100 Dias de RTL: o demultiplexador 1x4 parametrizável, com expressões booleanas, circuito em portas lógicas, código Verilog, testbench e simulação no Icarus Verilog e GTKWave."
 date: 2026-10-31
 author: rafael
 categories: ["100 Dias de RTL", "Verilog"]
@@ -70,7 +70,7 @@ Desta vez usamos **atribuições contínuas** com o operador ternário: cada sa�
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 004 - Demultiplexador 1x4
 // ----------------------------------------------------------------------------
 // Descrição : Encaminha a entrada in_a (WIDTH bits) para uma de quatro saídas,
@@ -115,7 +115,7 @@ O testbench segue a mesma estrutura do Dia 003: testes dirigidos que aparecem na
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 004 - Testbench do Demultiplexador 1x4
 // ============================================================================
 

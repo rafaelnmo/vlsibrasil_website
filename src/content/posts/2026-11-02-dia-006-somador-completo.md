@@ -1,6 +1,6 @@
 ---
 title: "Dia 006 - Somador Completo"
-description: "Dia 006 do Desafio 100 Dias de RTL: o somador completo (full adder) montado com dois meios somadores, introduzindo projeto hierárquico em Verilog, com testbench e simulação no Icarus Verilog e GTKWave."
+description: "Dia 006 do 100 Dias de RTL: o somador completo (full adder) montado com dois meios somadores, introduzindo projeto hierárquico em Verilog, com testbench e simulação no Icarus Verilog e GTKWave."
 date: 2026-11-02
 author: rafael
 categories: ["100 Dias de RTL", "Verilog"]
@@ -82,7 +82,7 @@ O somador completo é descrito de forma **estrutural**: em vez de escrever as eq
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 006 - Somador Completo (Full Adder)
 // ----------------------------------------------------------------------------
 // Descrição : Soma três bits (in_a, in_b e o vai-um de entrada cin), gerando
@@ -143,7 +143,7 @@ O arquivo `meio_somador.v` é o mesmo do Dia 005, copiado para a pasta `rtl/` de
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 006 - Testbench do Somador Completo
 // ============================================================================
 

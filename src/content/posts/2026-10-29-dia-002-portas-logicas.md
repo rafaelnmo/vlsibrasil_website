@@ -1,6 +1,6 @@
 ---
 title: "Dia 002 - Portas Lógicas"
-description: "Dia 002 do Desafio 100 Dias de RTL: as portas AND, OR, NAND, NOR, XOR e XNOR, com tabela verdade, NAND e NOR em CMOS, código Verilog, testbench e simulação no Icarus Verilog e GTKWave."
+description: "Dia 002 do 100 Dias de RTL: as portas AND, OR, NAND, NOR, XOR e XNOR, com tabela verdade, NAND e NOR em CMOS, código Verilog, testbench e simulação no Icarus Verilog e GTKWave."
 date: 2026-10-29
 author: rafael
 categories: ["100 Dias de RTL", "Verilog"]
@@ -87,7 +87,7 @@ Cada porta vira uma atribuição contínua (`assign`) usando os operadores **bit
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 002 - Portas Lógicas
 // ----------------------------------------------------------------------------
 // Descrição : Implementa as seis portas lógicas básicas de duas entradas:
@@ -135,7 +135,7 @@ O testbench percorre as 4 combinações de entrada e compara as seis saídas de 
 
 ```verilog
 // ============================================================================
-// VLSI Brasil - Desafio 100 Dias de RTL
+// VLSI Brasil - 100 Dias de RTL
 // Dia 002 - Testbench das Portas Lógicas
 // ============================================================================
 
