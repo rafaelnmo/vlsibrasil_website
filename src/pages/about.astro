@@ -36,7 +36,7 @@ const rafael = AUTHORS.rafael;
       <p>
         Sugestões de tema, correções ou parcerias: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Siga também
         nas redes:
-        {SOCIAL.map((s, i) => <>{i > 0 && ', '}<a href={s.url} target="_blank" rel="noopener">{s.name}</a></>)}.
+        {' '}{SOCIAL.map((s, i) => <>{i > 0 && ', '}<a href={s.url} target="_blank" rel="noopener">{s.name}</a></>)}.
       </p>
     </div>
   </div>
