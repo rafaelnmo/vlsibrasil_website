@@ -6,7 +6,7 @@ author: rafael
 categories: ["100 Dias de RTL", "Verilog"]
 tags: ["RTL", "Verilog", "Aritmética", "Somador", "Icarus Verilog", "GTKWave"]
 cover: "/assets/images/100dias/dia_006/dia_006_capa.png"
-draft: true
+draft: false
 ---
 Ontem vimos que o meio somador não tem uma entrada de vai-um e, por isso, não consegue somar números de vários bits. Hoje resolvemos esse problema com o **somador completo** (*full adder*), e aproveitamos para dar um passo importante em Verilog: o **projeto hierárquico**, montando um circuito a partir de outros módulos.
 
